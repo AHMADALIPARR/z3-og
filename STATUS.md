@@ -88,6 +88,22 @@ it were the whole problem.
   copied test corpus remains under its original MIT license
   (see `SOURCES.md`).
 
+## ATS contract layer (wolfram-stack) -- 2026-10-29
+
+`wolfram-stack/ats/` (9 files + README): ATS as the verified memory
+and shape-contract layer between the Wolfram transformations and
+the Rust kernel -- NOT another solver. Dependent types index flat
+arrays by cell count (words_for geometry axiom in proofs.sats),
+linear arena ownership makes the kernel's overlap check a static
+pair token, stride/stencil files own the index arithmetic and the
+Zero/Wrap neighbourhood cases, bridge.dats fixes the wf_* C ABI and
+the Kani-harness correspondence. Every contract is grounded in the
+shipped kernel (wolfram-flat/src/lib.rs) line by line. STATUS:
+authored, NOT typechecked -- no ATS toolchain exists on this VM
+(no patscc/xatscc, no package candidate); check command for the
+owner's machines is in ats/README.md. Nothing here is claimed
+machine-checked; the Kani harnesses remain the bounded form.
+
 ## Sources on disk
 
 Forks were cloned to `~/workspace/forks-incoming/` (all eight, HEADs
