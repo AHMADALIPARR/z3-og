@@ -1,0 +1,6 @@
+(declare-const x Int)
+(assert (>= x 4))
+(assert (<= x 6))
+(assert (not (= x 5)))
+(assert (not (= x 4)))
+(check-sat)

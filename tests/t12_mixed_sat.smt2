@@ -1,0 +1,7 @@
+(declare-const x Int)
+(declare-const y Int)
+(declare-fun f (Int) Int)
+(assert (= y 3))
+(assert (= (f x) (f y)))
+(assert (= x y))
+(check-sat)

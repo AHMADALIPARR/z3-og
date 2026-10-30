@@ -1,0 +1,29 @@
+(lang dune 2.7)
+
+(name z3og_kernel)
+
+(generate_opam_files true)
+
+(source
+ (github AHMADALIPARR/z3-og))
+
+(homepage "https://github.com/AHMADALIPARR/z3-og")
+
+(maintainers "AHMADALIPARR")
+
+(authors "AHMADALIPARR")
+
+(package
+ (name z3og_kernel)
+ (synopsis "Hand-rolled trusted kernel for the z3-og clean stack")
+ (description
+  "z3og_kernel is the small trusted kernel of the z3-og SMT stack:
+hash-consed first-order terms, checked substitutions, a
+congruence-closure decision procedure for ground EUF, and an
+append-only hash-chained assertion ledger.  Everything else in the
+stack must check against this package.")
+ (depends
+  (ocaml
+   (>= 4.14))
+  (dune
+   (>= 2.7))))

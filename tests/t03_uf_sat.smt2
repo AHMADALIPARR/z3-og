@@ -1,0 +1,6 @@
+(declare-sort U 0)
+(declare-const a U)
+(declare-const b U)
+(declare-fun f (U) U)
+(assert (not (= (f a) (f b))))
+(check-sat)

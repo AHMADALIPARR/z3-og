@@ -1,0 +1,13 @@
+t01_bool_unsat.smt2 unsat
+t02_uf_unsat.smt2 unsat
+t03_uf_sat.smt2 sat
+t04_lia_sat.smt2 sat
+t05_lia_unsat.smt2 unsat
+t06_int_parity_unsat.smt2 unsat
+t07_value_merge_sat.smt2 sat
+t08_nonlinear_unknown.smt2 unknown
+t09_diseq_sat.smt2 sat
+t10_pred_congr_unsat.smt2 unsat
+t11_euf_trans_unsat.smt2 unsat
+t12_mixed_sat.smt2 sat
+t13_lra_sat_lia_unsat.smt2 unsat

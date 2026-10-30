@@ -1,0 +1,8 @@
+(declare-sort U 0)
+(declare-const a U)
+(declare-const b U)
+(declare-const c U)
+(assert (= a b))
+(assert (= b c))
+(assert (distinct a c))
+(check-sat)
