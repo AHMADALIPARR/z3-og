@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dee Mirror Maze — MixColumns Team Area</title>
+<style>
+  body { font-family: ui-monospace, Menlo, Consolas, monospace; margin: 2rem auto; max-width: 62rem; padding: 0 1rem; color: #111; background: #fff; line-height: 1.45; }
+  h1 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.05rem; margin-top: 2.25rem; border-bottom: 1px solid #999; padding-bottom: 0.25rem; }
+  p.sub { color: #444; margin-top: 0; }
+  table { border-collapse: collapse; margin: 0.75rem 0; }
+  td, th { border: 1px solid #999; padding: 0.3rem 0.55rem; text-align: center; }
+  input { font: inherit; width: 4.2rem; text-align: center; }
+  input.wide { width: 13rem; }
+  button { font: inherit; padding: 0.25rem 0.8rem; margin-right: 0.5rem; cursor: pointer; }
+  pre { border: 1px solid #999; padding: 0.75rem; overflow-x: auto; font-size: 0.85rem; }
+  .out { font-weight: bold; }
+  .note { color: #444; font-size: 0.9rem; }
+  .status { margin-top: 0.5rem; }
+</style>
+</head>
+<body>
+
+<h1>John Dee MixColumns Mirror Maze — Team Area</h1>
+<p class="sub">A working tool, not a mock-up. Every value on this page is computed live:
+the GF(2<sup>8</sup>) weave is the AES MixColumns transform braided into
+<code>crypto/og_mixcolumns.c</code>, and the Goldilocks panel runs the same matrix
+over F<sub>p</sub>, p = 2<sup>64</sup> − 2<sup>32</sup> + 1, with exact arithmetic.</p>
+
+<h2>1 · GF(2^8) — the AES weave and its mirror</h2>
+
+<p>One state column. Enter four bytes (hex), then run the weave forward or
+traverse the mirror (inverse weave 0E 0B 0D 09) back.</p>
+
+<table>
+  <tr><th>a0</th><th>a1</th><th>a2</th><th>a3</th></tr>
+  <tr>
+    <td><input id="g0" value="DB"></td>
+    <td><input id="g1" value="13"></td>
+    <td><input id="g2" value="53"></td>
+    <td><input id="g3" value="45"></td>
+  </tr>
+</table>
+<p>
+  <button onclick="runGF(false)">Weave forward →</button>
+  <button onclick="runGF(true)">← Mirror inverse</button>
+</p>
+<table>
+  <tr><th>b0</th><th>b1</th><th>b2</th><th>b3</th></tr>
+  <tr>
+    <td class="out" id="o0">8E</td><td class="out" id="o1">4D</td>
+    <td class="out" id="o2">A1</td><td class="out" id="o3">BC</td>
+  </tr>
+</table>
+<pre id="trace">02·DB = AD&nbsp;&nbsp;03·13 = 35&nbsp;&nbsp;01·53 = 53&nbsp;&nbsp;01·45 = 45&nbsp;&nbsp;→ b0 = 8E</pre>
+
+<p>Full 4×4 state (AES layout, column-major). The weave runs per column.</p>
+<table id="stateIn"></table>
+<p>
+  <button onclick="runState(false)">Mix state →</button>
+  <button onclick="runState(true)">← Mirror state</button>
+</p>
+<table id="stateOut"></table>
+
+<h2>2 · Goldilocks F<sub>p</sub> — the same matrix over a prime field</h2>
+
+<p>Four field elements (hex <code>0x…</code> or decimal, each &lt; p =
+18446744069414584321). XOR tangles become additions mod p; the taps 01/02/03
+become ×1/×2/×3. det M = −35 ≢ 0 (mod p), so M is invertible over F<sub>p</sub> and
+the mirror traversal below is the true matrix inverse, not a display reflection.</p>
+
+<table>
+  <tr><th>a0</th><th>a1</th><th>a2</th><th>a3</th></tr>
+  <tr>
+    <td><input class="wide" id="p0" value="0xFFFFFFFF00000000"></td>
+    <td><input class="wide" id="p1" value="0xDEADBEEFCAFEBABE"></td>
+    <td><input class="wide" id="p2" value="0x0000000100000000"></td>
+    <td><input class="wide" id="p3" value="0x4242424242424242"></td>
+  </tr>
+</table>
+<p>
+  <button onclick="runP(false)">Weave forward →</button>
+  <button onclick="runP(true)">← Mirror inverse</button>
+</p>
+<table>
+  <tr><th>b0</th><th>b1</th><th>b2</th><th>b3</th></tr>
+  <tr>
+    <td class="out" id="q0">—</td><td class="out" id="q1">—</td>
+    <td class="out" id="q2">—</td><td class="out" id="q3">—</td>
+  </tr>
+</table>
+<p class="status" id="pStatus"></p>
+
+<h2>Notes</h2>
+<p class="note">GF(2<sup>8</sup>) core verified against FIPS-197: column
+(DB 13 53 45) weaves to (8E 4D A1 BC) and mirrors back exactly; the C
+implementation additionally proves its multiplication tables against the field
+definition for all 6 × 256 entries and roundtrips 10,000 random columns.
+Goldilocks core cross-checked against exact integer arithmetic, including
+inverse roundtrips. Sources: <code>crypto/og_mixcolumns.c</code> ·
+<code>dee-mirror/viz/mirror_maze.rs</code> · <code>dee-mirror/backend/GoldilocksDeeLoom.fs</code> ·
+<code>dee-mirror/proofs/GoldilocksLoom.lean</code> (see dee-mirror/README.md for the
+verification status of each).</p>
+
+<script>
+// CORE-BEGIN
+function xtime(a){ return ((a<<1)&0xFF) ^ ((a&0x80)?0x1B:0); }
+function gfMul(a,b){ let p=0; for(let i=0;i<8;i++){ if(b&1) p^=a; a=xtime(a); b>>=1; } return p; }
+const FWD = [[2,3,1,1],[1,2,3,1],[1,1,2,3],[3,1,1,2]];
+const INV = [[0x0E,0x0B,0x0D,0x09],[0x09,0x0E,0x0B,0x0D],[0x0D,0x09,0x0E,0x0B],[0x0B,0x0D,0x09,0x0E]];
+function applyGF(mat,a){ return mat.map(row => row.reduce((s,c,i)=> s ^ gfMul(c,a[i]), 0)); }
+
+const P = (1n<<64n) - (1n<<32n) + 1n;
+const modP = x => ((x % P) + P) % P;
+function matVecP(mat, a){ return mat.map(row => modP(row.reduce((s,c,i)=> s + c*a[i], 0n))); }
+const MBIG = FWD.map(row => row.map(BigInt));
+function det3(m){ return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1]) - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0]) + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]); }
+function invMatP(){
+  const cof = [];
+  for(let i=0;i<4;i++){ cof.push([]); for(let j=0;j<4;j++){
+    const minor = MBIG.filter((_,r)=>r!==i).map(row=>row.filter((_,c)=>c!==j));
+    cof[i].push(((i+j)%2? -1n:1n) * det3(minor));
+  }}
+  const det = MBIG[0].reduce((s,_,j)=> s + MBIG[0][j]*cof[0][j], 0n); // = -35
+  let invDet; // inverse of det mod P, via extended gcd (r0 = s0*det mod P throughout)
+  { let r0=modP(det), r1=P, s0=1n, s1=0n;
+    while(r1){ const q=r0/r1; [r0,r1]=[r1,r0-q*r1]; [s0,s1]=[s1,s0-q*s1]; }
+    invDet = modP(s0); }
+  // inverse = adjugate (transpose of cofactor matrix) * invDet
+  return MBIG.map((row,i)=> row.map((_,j)=> modP(cof[j][i] * invDet)));
+}
+const INVP = invMatP();
+// CORE-END
+
+const hx = n => n.toString(16).toUpperCase().padStart(2,'0');
+function readGF(){ return [0,1,2,3].map(i => parseInt(document.getElementById('g'+i).value || '0', 16) & 0xFF); }
+function runGF(inv){
+  const a = readGF(), mat = inv ? INV : FWD, b = applyGF(mat, a);
+  b.forEach((v,i)=> document.getElementById('o'+i).textContent = hx(v));
+  const terms = mat[0].map((c,i)=> `${hx(c)}·${hx(a[i])} = ${hx(gfMul(c,a[i]))}`).join('  ');
+  document.getElementById('trace').textContent = `${terms}  → b0 = ${hx(b[0])}`;
+}
+function buildStateTables(){
+  const defs = ['DB','13','53','45','00','00','00','00','00','00','00','00','00','00','00','00'];
+  const mk = (id, editable) => {
+    const t = document.getElementById(id); let html = '';
+    for(let r=0;r<4;r++){ html += '<tr>';
+      for(let c=0;c<4;c++){ const idx = 4*c + r;
+        html += editable ? `<td><input id="s${idx}" value="${defs[idx]}" style="width:3.2rem"></td>`
+                         : `<td class="out" id="so${idx}">–</td>`; }
+      html += '</tr>'; }
+    t.innerHTML = html;
+  };
+  mk('stateIn', true); mk('stateOut', false);
+  runState(false);
+}
+function runState(inv){
+  const s = []; for(let i=0;i<16;i++) s.push(parseInt(document.getElementById('s'+i).value || '0', 16) & 0xFF);
+  const mat = inv ? INV : FWD;
+  for(let c=0;c<4;c++){ const col = applyGF(mat, s.slice(4*c, 4*c+4));
+    col.forEach((v,r)=> document.getElementById('so'+(4*c+r)).textContent = hx(v)); }
+}
+function parseBig(v){ v = v.trim(); return modP(v.startsWith('0x')||v.startsWith('0X') ? BigInt(v) : BigInt(v)); }
+function runP(inv){
+  const a = [0,1,2,3].map(i => parseBig(document.getElementById('p'+i).value));
+  const b = inv ? matVecP(INVP, a) : matVecP(MBIG, a);
+  b.forEach((v,i)=> document.getElementById('q'+i).textContent = '0x' + v.toString(16).toUpperCase());
+  const back = inv ? matVecP(MBIG, b) : matVecP(INVP, b);
+  const ok = back.every((v,i)=> v === a[i]);
+  document.getElementById('pStatus').textContent =
+    `Mirror roundtrip check on this vector: ${inv ? 'forward(inverse(a))' : 'inverse(forward(a))'} == a → ${ok ? 'exact' : 'MISMATCH'}`;
+}
+buildStateTables();
+runGF(false);
+runP(false);
+</script>
+</body>
+</html>
