@@ -34,8 +34,8 @@ viewdef arena_v (l:addr, cells:int) = arena (l, cells)
 (* Acquire an arena over caller storage. The caller gives up the raw
  * storage view and gets the linear token; release is the only way
  * back. Implemented against the C ABI in bridge.dats. *)
-extern fun arena_acquire {cells:pos}
-  (base: addr, cells: size_t cells) : arena (base, cells)
+extern fun arena_acquire {l:addr}{cells:pos}
+  (base: ptr(l), cells: size_t cells) : arena (l, cells)
 
 extern fun arena_release {l:addr}{cells:pos}
   (a: arena (l, cells)) : void
@@ -80,6 +80,7 @@ extern fun arena_pair_dst
  * the byte ranges are fixed, so the swapped pair needs no new
  * runtime evidence. *)
 prfun disjoint_sym {l1,l2:addr}{w:nat}
+  .<1>.
   (pf: DISJOINT (l1, l2, w)) : DISJOINT (l2, l1, w) =
   case+ pf of
   | DISJ_lt () => DISJ_gt ()

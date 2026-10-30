@@ -27,6 +27,9 @@
  * order -- exactly the kernel's layout (wolfram-flat/src/lib.rs).
  *)
 
+#include "share/atspre_define.hats"
+#include "share/atspre_staload.hats"
+
 (* ------------------------------------------------------------------ *)
 (* Word geometry                                                       *)
 (* ------------------------------------------------------------------ *)
@@ -39,9 +42,9 @@
 stacst words_for : int -> int
 
 propdef WF_BOUNDS (cells:int, w:int) =
-  ( w == words_for (cells)
-  , w * 64 >= cells
-  , cells == 0 || (w - 1) * 64 < cells )
+  [ w == words_for (cells)
+  ; w * 64 >= cells
+  ; cells == 0 || (w - 1) * 64 < cells ] void
 
 prfun lemma_words_for_bounds
   {cells:nat} () : WF_BOUNDS (cells, words_for (cells))
@@ -52,7 +55,7 @@ stacst pow2 : int -> int
 prfun lemma_pow2_pos {k:nat} () : [pow2 (k) >= 1] void
 
 (* A value known to be a single bit. *)
-propdef IS_BIT (v:int) = (v == 0 || v == 1)
+propdef IS_BIT (v:int) = [v == 0 || v == 1] void
 
 (* Last-word discipline: with r = cells mod 64, a word is MASKED for
  * cells when the r == 0 case imposes nothing and otherwise the word's
@@ -61,7 +64,7 @@ propdef IS_BIT (v:int) = (v == 0 || v == 1)
  * dst before writing) and the precondition population() relies on
  * being irrelevant (it masks before counting). *)
 propdef LAST_OK (cells:int, v:int) =
-  (cells % 64 == 0 || v < pow2 (cells % 64))
+  [cells % 64 == 0 || v < pow2 (cells % 64)] void
 
 (* ------------------------------------------------------------------ *)
 (* Error and boundary codes (mirror the Rust enums one-to-one)         *)

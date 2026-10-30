@@ -16,6 +16,9 @@
  * proofs.sats, not re-derived (or mis-derived) at every call site.
  *)
 
+#include "share/atspre_define.hats"
+#include "share/atspre_staload.hats"
+
 staload "proofs.sats"
 
 (* The abstract buffer type, indexed by cell count. *)
@@ -26,7 +29,7 @@ fun flatarr_words {cells:nat}
   (a: flatarr cells) : [w:nat] (WF_BOUNDS (cells, w) | size_t w)
 
 (* Base address, for the disjointness tokens of arena.dats. *)
-fun flatarr_base {cells:nat} (a: flatarr cells) : addr
+fun flatarr_base {cells:nat} (a: flatarr cells) : ptr
 
 (* Whole-word access: word index bounded by the WORD count. *)
 fun word_get {cells:nat}{w:nat | w < words_for (cells)}

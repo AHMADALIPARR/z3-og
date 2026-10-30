@@ -49,22 +49,24 @@ the correspondence table is at the bottom of `bridge.dats`.
 
 ## Verification status — read before citing
 
-**This layer is authored, not yet typechecked.** There is no ATS
-toolchain on the machine that hosts this repository copy (no
-`patscc`/`xatscc`, no package candidate), so no file here has been
-through the ATS typechecker. The layer is written conservatively
-against ATS2/Postiats idioms, with the two genuinely nonlinear facts
-(`lemma_words_for_bounds` instances beyond the axiom, and
-`lemma_idx_bound`) stated as the layer's proof obligations rather
-than papered over. On a machine with ATS2:
+**This layer typechecks individually under ATS2/Postiats 0.4.2.**
+Each `.sats` and `.dats` file passes `patsopt -tc` on its own.
+A combined check (`patsopt -tc -dd *.dats`) reports a staload cycle
+among the `.dats` files (arena ↔ automata ↔ stencil ↔ …); that is a
+module-structure issue, not a type error. The `implement` of
+`elementary_step` in `bridge.dats` is commented out — the dependent
+return type (`int ERR_OK`) plus the C-ABI call triggers a match
+failure inside the ATS2 constraint solver; the declaration remains.
+
+On a machine with ATS2:
 
 ```
-patscc -tc ats/*.sats ats/*.dats    # typecheck the layer
+cd ats
+patsopt -tc -s *.sats
+patsopt -tc -d *.dats
 ```
 
-Until that runs clean, treat this directory as a *specified*
-contract layer — the contracts are exact and kernel-grounded, but
-"specified" is not "machine-checked", and this README does not
-claim otherwise. The Kani harnesses remain the only machine-checked
-form of these facts today, and they are themselves disclosed as
-unexecuted in the kernel's own README.
+The contracts are exact and kernel-grounded. Individual typechecking
+is now machine-checked; the combined module graph and the bridge
+implementation remain open. The Kani harnesses remain the executable
+shadow of these propositions.
