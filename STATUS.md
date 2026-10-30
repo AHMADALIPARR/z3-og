@@ -104,6 +104,20 @@ authored, NOT typechecked -- no ATS toolchain exists on this VM
 owner's machines is in ats/README.md. Nothing here is claimed
 machine-checked; the Kani harnesses remain the bounded form.
 
+## Rule 30 photo restored -- 2026-10-29
+
+At the owner's order ("add this photo back"), the Rule 30 spacetime
+image is restored to the README at docs/assets/rule30-spacetime.png.
+It was NOT restored from the removed bytes: the pattern was
+regenerated from the real kernel now in this repository
+(wolfram-stack/wolfram-flat) and verified cell-for-cell identical
+to the historical image (800x800, single seed at cell 416, Zero
+boundary -- 0 differing cells across all 640,000). The generator is
+committed at benchmarks/rule30-render/ so the render is
+reproducible from the kernel source. The caption's claim -- an
+actual run of the wolfram-flat kernel in this repository -- is now
+true of the current tree.
+
 ## Sources on disk
 
 Forks were cloned to `~/workspace/forks-incoming/` (all eight, HEADs
