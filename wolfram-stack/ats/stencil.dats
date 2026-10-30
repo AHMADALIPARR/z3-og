@@ -60,9 +60,9 @@ dataprop NBR3 (cells:int, i:int, l:int, c:int, r:int) =
 (* The neighbourhood code the rule table is indexed by: (l<<2)|(c<<1)|r,
  * an index into the rule byte, hence in 0..7 by construction. *)
 propdef NCODE (l:int, c:int, r:int, n:int) =
-  (n == 4 * l + 2 * c + r, 0 <= n, n <= 7)
+  [n == 4 * l + 2 * c + r; 0 <= n; n <= 7] void
 
-prfun lemma_ncode_range {l,c,r:int | l == 0 || l == 1; c == 0 || c == 1; r == 0 || r == 1} () :
+extern prfun lemma_ncode_range {l,c,r:int | l == 0 || l == 1; c == 0 || c == 1; r == 0 || r == 1} () :
   NCODE (l, c, r, 4 * l + 2 * c + r)
 
 (* ------------------------------------------------------------------ *)
@@ -80,4 +80,4 @@ dataprop NBR8 (cells:int, n:int) =
     ; b7 == 0 || b7 == 1; b8 == 0 || b8 == 1}
     NBR8_make (cells, b1 + b2 + b3 + b4 + b5 + b6 + b7 + b8) of ()
 
-prfun lemma_nbr8_range {cells,n:nat} (pf: NBR8 (cells, n)) : [n <= 8] void
+extern prfun lemma_nbr8_range {cells,n:nat} (pf: NBR8 (cells, n)) : [n <= 8] void

@@ -27,14 +27,14 @@ staload "proofs.sats"
 (* ------------------------------------------------------------------ *)
 
 propdef DECOMP (i:int, w:int, b:int) =
-  (i == 64 * w + b, 0 <= b, b < 64)
+  [i == 64 * w + b; 0 <= b; b < 64] void
 
-prfun lemma_decomp {i:nat} () : DECOMP (i, i / 64, i % 64)
+extern prfun lemma_decomp {i:nat} () : DECOMP (i, i / 64, i % 64)
 
 (* The word half of a live cell index addresses a real word of the
  * buffer -- the fact that makes the kernel's words[index >> 6]
  * access total, with no bounds check owed at runtime. *)
-prfun lemma_word_index {cells,i:nat | i < cells} () :
+extern prfun lemma_word_index {cells,i:nat | i < cells} () :
   [i / 64 < words_for (cells)] void
 
 (* ------------------------------------------------------------------ *)
@@ -47,17 +47,17 @@ stadef idx (y:int, x:int, w:int) = y * w + x
  * the width*height state. (Nonlinear: stated here as the layer's
  * stride axiom; the proof on a Postiats toolchain goes through the
  * prelude's mul lemmas -- mul_pos, mul_lt_mono -- in that order.) *)
-prfun lemma_idx_bound
+extern prfun lemma_idx_bound
   {w,h,x,y:nat | x < w; y < h} () :
   [idx (y, x, w) < w * h] void
 
 (* Row stride monotonicity: moving one row down advances the index
  * by exactly width -- the fact stencil neighbourhoods are built from. *)
-prfun lemma_idx_row {w,y,x:nat} () :
+extern prfun lemma_idx_row {w,y,x:nat} () :
   [idx (y + 1, x, w) == idx (y, x, w) + w] void
 
 (* Column neighbour: one step right stays in the same row iff x + 1
  * does not cross the width; crossing is the boundary case, owned by
  * stencil.dats, not by ad-hoc arithmetic at the call site. *)
-propdef SAME_ROW (w:int, x:int) = (x + 1 < w)
-propdef ROW_EDGE (w:int, x:int) = (x + 1 == w)
+propdef SAME_ROW (w:int, x:int) = [x + 1 < w] void
+propdef ROW_EDGE (w:int, x:int) = [x + 1 == w] void

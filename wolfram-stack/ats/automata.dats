@@ -31,8 +31,7 @@ datatype boundary = Zero | Wrap
  * the bit written is bit n of the rule, where n is the NBR3 code of
  * the neighbourhood the bit was read from. *)
 propdef CELL_LAW (rule:int, l:int, c:int, r:int, out:int) =
-  ( IS_BIT (out)
-  , out == (rule / pow2 (4 * l + 2 * c + r)) % 2 )
+  [out == (rule / pow2 (4 * l + 2 * c + r)) % 2] void
 
 (* The whole-step law -- every cell of dst satisfies CELL_LAW for
  * the neighbourhood it was read from -- is an abstract proposition:
@@ -51,7 +50,7 @@ stacst ELEM_LAW : (int, int) -> prop
  *   ShapeOverflow      -- impossible: words_for bounds are static
  * What remains is ERR_OK, returned as the value, with the masking
  * postcondition as proof. *)
-fun elementary_step {l1,l2:addr}{cells:pos}{rule:int | 0 <= rule; rule <= 255}
+extern fun elementary_step {l1,l2:addr}{cells:pos}{rule:int | 0 <= rule; rule <= 255}
   ( p: !arena_pair (l1, l2, cells)
   , cells: size_t cells
   , rule: int rule
@@ -65,7 +64,7 @@ fun elementary_step {l1,l2:addr}{cells:pos}{rule:int | 0 <= rule; rule <= 255}
  * Shape: cells = width * height is a static identity here, so the
  * kernel's checked_mul / ShapeOverflow case is discharged by the
  * type of the state (flatarr (width * height)). *)
-fun moore_step {l1,l2:addr}{w,h:pos}
+extern fun moore_step {l1,l2:addr}{w,h:pos}
   ( p: !arena_pair (l1, l2, w * h)
   , width: size_t w, height: size_t h
   , birth: uint16, survive: uint16

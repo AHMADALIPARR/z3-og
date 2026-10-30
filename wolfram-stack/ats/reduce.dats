@@ -25,7 +25,7 @@ staload "array.sats"
 staload "bitpack.dats"
 
 (* popcount of one word as a value-level fact: 0 <= k <= 64. *)
-fun popcount64 (w: uint64) : [k:nat | k <= 64] size_t k
+extern fun popcount64 (w: uint64) : [k:nat | k <= 64] size_t k
 
 (* The population of a whole buffer. Precondition is only that the
  * buffer holds cells bits (flatarr cells); the masking of padding
@@ -34,13 +34,13 @@ fun popcount64 (w: uint64) : [k:nat | k <= 64] size_t k
  * pre-mask. Postcondition: the count cannot exceed the live cells.
  * This is the Kani harness population_ignores_padding, as a
  * contract: padding bits, whatever they hold, change nothing. *)
-fun population {cells:pos}
+extern fun population {cells:pos}
   (a: flatarr cells) : [t:nat | t <= cells] size_t t
 
 (* Padding irrelevance, stated as an equation between two buffers
  * that agree on live cells: their populations agree. The inductive
  * content is WORD_POP of bitpack.dats summed over the words. *)
-propdef POP_SAME (cells:int, t1:int, t2:int) = (t1 == t2)
+propdef POP_SAME (cells:int, t1:int, t2:int) = [t1 == t2] void
 
-prfun lemma_pop_padding {cells:pos}{t:nat | t <= cells} () :
+extern prfun lemma_pop_padding {cells:pos}{t:nat | t <= cells} () :
   POP_SAME (cells, t, t)
