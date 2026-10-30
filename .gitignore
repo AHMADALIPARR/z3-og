@@ -9,3 +9,4 @@ kernel-ocaml/test/*.log
 z3.log
 *.checked
 *.krml
+target/
