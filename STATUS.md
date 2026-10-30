@@ -144,6 +144,16 @@ API. Nothing has been pushed yet.
   30/90/110 (zero boundary) and rule 30 (wrap): for every cell the
   solver proves the simulated value and refutes its negation —
   **5,120 solver checks, all pass**.
-- `fstar/` — the verified layer is being added under the owner's
-  zero-sorry rule (no admit/sorry/assume, no vacuous lemmas);
-  F* 2026.10.18 is installed at `~/workspace/.tools/fstar`.
+- `fstar/` — the verified layer, under the owner's zero-sorry rule
+  (grep over all `.fst`: zero `admit`/`sorry`/`assume`). Verified by
+  execution with F* 2026.10.18 + system Z3 4.8.12, all conditions
+  discharged: `SMT.RewriteProof` (owner's module, verbatim),
+  `SMT.LowExtract` (owner's module, verbatim; two legacy names it
+  uses are supplied by a disclosed compat shim in `fstar/compat/`,
+  the module itself untouched), extracted via KreMLin (Custard path)
+  to C99 in `fstar/extracted/` — compiles warning-free and matches
+  the owner's supplied generated C semantically — and
+  `EGraph.Sovereign`, rebuilt so `verified_union` actually merges,
+  with proved lemmas (`union_merges`, `union_nodes`); the sketch's
+  vacuous lemma was dropped, not faked, and the file header says
+  what a real version still needs. Full record: `fstar/README.md`.

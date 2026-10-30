@@ -7,3 +7,5 @@ crypto/test_crypto
 kernel-ocaml/test_kernel
 kernel-ocaml/test/*.log
 z3.log
+*.checked
+*.krml
