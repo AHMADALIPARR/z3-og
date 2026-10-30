@@ -1,7 +1,7 @@
 #!/bin/sh
 # run_corpus_timing.sh -- wall-clock comparison on the differential
 # corpus: ./z3og vs the system z3, same files, same machine, 10 s cap.
-# z3-og -- hand-rolled SMT stack. Copyright (c) 2026 Ahmad Ali Parr.
+# z3-og -- hand-rolled SMT stack. Copyright (c) 2026 Nova Parr, Ahmad Ali Parr, and Team HoloTwinKitty.
 # Licensed under the Sovereign Leviathan / SNAPKITTY OPAQUE SOURCE
 # LICENSE v1.0 -- see LICENSE at the repository root.
 set -e

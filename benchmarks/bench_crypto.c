@@ -1,5 +1,5 @@
 /* bench_crypto.c -- throughput of the hand-rolled crypto layer.
- * z3-og -- hand-rolled SMT stack. Copyright (c) 2026 Ahmad Ali Parr.
+ * z3-og -- hand-rolled SMT stack. Copyright (c) 2026 Nova Parr, Ahmad Ali Parr, and Team HoloTwinKitty.
  * Licensed under the Sovereign Leviathan / SNAPKITTY OPAQUE SOURCE
  * LICENSE v1.0 -- see LICENSE at the repository root. */
 #define _POSIX_C_SOURCE 199309L
