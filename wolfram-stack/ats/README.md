@@ -21,6 +21,12 @@ Kani               bounded model checking of the
 Z3-OG              SMT reasoning over the same rules   ../../src/, ../../tools/rulec.c
 ```
 
+## Terminal visualizer
+
+ANSI box-drawing maze traversal (raw escape sequences rendered):
+
+![ANSI maze traversal](../../docs/assets/maze-ansi.gif)
+
 ## Files
 
 | File | Owns |
