@@ -1,0 +1,16 @@
+[package]
+name = "wolfram-flat-ffi"
+version = "0.1.0"
+edition = "2021"
+license-file = "../../LICENSE"
+description = "C ABI static library for the wolfram-flat kernel (the wf_* surface the ATS contracts declare)"
+
+[lib]
+name = "wolfram_flat_ffi"
+crate-type = ["staticlib"]
+
+[dependencies]
+wolfram-flat = { path = "../wolfram-flat" }
+
+[profile.release]
+panic = "abort"

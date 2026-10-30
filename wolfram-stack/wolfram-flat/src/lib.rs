@@ -119,6 +119,88 @@ pub fn moore(src: &[u64], dst: &mut [u64], width: usize, height: usize, birth: u
     Ok(())
 }
 
+
+/* ------------------------------------------------------------------ */
+/* C ABI -- the wf_* surface the ATS contract layer declares          */
+/* (ats/bridge.dats, ats/contracts.dats: ext#wf_words_for,            */
+/* ext#wf_elementary, ext#wf_population, ext#wf_moore). Error codes   */
+/* and boundary tags are the stadef constants of ats/proofs.sats:     */
+/* ERR_OK 0, ERR_EMPTY 1, ERR_SMALL 2, ERR_OVERFLOW 3, ERR_OVERLAP 4; */
+/* BND_ZERO 0, BND_WRAP 1. Callers pass caller-owned buffers of       */
+/* words_for(cells) words, exactly as the contracts' arena tokens     */
+/* guarantee; the safe API above re-validates length and overlap.     */
+/* A null buffer is ERR_SMALL (the buffer is not there to be big      */
+/* enough); a rule or boundary tag the kernel's types cannot hold     */
+/* is ERR_OVERFLOW.                                                   */
+/* ------------------------------------------------------------------ */
+
+pub const ERR_OK: i32 = 0;
+pub const ERR_EMPTY: i32 = 1;
+pub const ERR_SMALL: i32 = 2;
+pub const ERR_OVERFLOW: i32 = 3;
+pub const ERR_OVERLAP: i32 = 4;
+
+fn err_code(e: Error) -> i32 {
+    match e {
+        Error::Empty => ERR_EMPTY,
+        Error::BufferTooSmall => ERR_SMALL,
+        Error::ShapeOverflow => ERR_OVERFLOW,
+        Error::OverlappingBuffers => ERR_OVERLAP,
+    }
+}
+
+fn boundary_of(bnd: i32) -> Result<Boundary, i32> {
+    match bnd {
+        0 => Ok(Boundary::Zero),
+        1 => Ok(Boundary::Wrap),
+        _ => Err(ERR_OVERFLOW),
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn wf_words_for(cells: usize) -> usize {
+    words_for(cells)
+}
+
+#[no_mangle]
+pub extern "C" fn wf_elementary(src: *const u64, dst: *mut u64, cells: usize, rule: i32, bnd: i32) -> i32 {
+    if src.is_null() || dst.is_null() { return ERR_SMALL; }
+    if rule < 0 || rule > 255 { return ERR_OVERFLOW; }
+    let boundary = match boundary_of(bnd) { Ok(b) => b, Err(c) => return c };
+    let n = words_for(cells);
+    let s = unsafe { core::slice::from_raw_parts(src, n) };
+    let d = unsafe { core::slice::from_raw_parts_mut(dst, n) };
+    match elementary(s, d, cells, rule as u8, boundary) {
+        Ok(()) => ERR_OK,
+        Err(e) => err_code(e),
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn wf_population(words: *const u64, cells: usize, out: *mut u64) -> i32 {
+    if words.is_null() || out.is_null() { return ERR_SMALL; }
+    let n = words_for(cells);
+    let w = unsafe { core::slice::from_raw_parts(words, n) };
+    match population(w, cells) {
+        Ok(count) => { unsafe { *out = count; } ERR_OK }
+        Err(e) => err_code(e),
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn wf_moore(src: *const u64, dst: *mut u64, width: usize, height: usize, birth: u16, survive: u16, bnd: i32) -> i32 {
+    if src.is_null() || dst.is_null() { return ERR_SMALL; }
+    let boundary = match boundary_of(bnd) { Ok(b) => b, Err(c) => return c };
+    let cells = match width.checked_mul(height) { Some(c) => c, None => return ERR_OVERFLOW };
+    let n = words_for(cells);
+    let s = unsafe { core::slice::from_raw_parts(src, n) };
+    let d = unsafe { core::slice::from_raw_parts_mut(dst, n) };
+    match moore(s, d, width, height, birth, survive, boundary) {
+        Ok(()) => ERR_OK,
+        Err(e) => err_code(e),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -165,6 +247,34 @@ mod tests {
     fn buffers_and_shapes() {
         assert_eq!(elementary(&[], &mut [], 1, 30, Boundary::Zero), Err(Error::BufferTooSmall));
         assert_eq!(moore(&[], &mut [], usize::MAX, 2, 0, 0, Boundary::Zero), Err(Error::ShapeOverflow));
+    }
+
+    #[test]
+    fn ffi_matches_safe_api() {
+        let src = [0b0000_1000u64];
+        let mut dst = [0u64];
+        assert_eq!(wf_words_for(65), 2);
+        assert_eq!(wf_elementary(src.as_ptr(), dst.as_mut_ptr(), 8, 30, 0), ERR_OK);
+        assert_eq!(dst[0], 0b0001_1100);
+        let mut count = 0u64;
+        assert_eq!(wf_population(src.as_ptr(), 8, &mut count), ERR_OK);
+        assert_eq!(count, 1);
+        let blinker = [(1u64 << 7) | (1u64 << 12) | (1u64 << 17)];
+        let mut out = [0u64];
+        assert_eq!(wf_moore(blinker.as_ptr(), out.as_mut_ptr(), 5, 5, 1 << 3, (1 << 2) | (1 << 3), 0), ERR_OK);
+        assert_eq!(out[0], (1u64 << 11) | (1u64 << 12) | (1u64 << 13));
+    }
+
+    #[test]
+    fn ffi_rejects_bad_arguments() {
+        let src = [1u64];
+        let mut dst = [0u64];
+        assert_eq!(wf_elementary(core::ptr::null(), dst.as_mut_ptr(), 8, 30, 0), ERR_SMALL);
+        assert_eq!(wf_elementary(src.as_ptr(), dst.as_mut_ptr(), 8, 256, 0), ERR_OVERFLOW);
+        assert_eq!(wf_elementary(src.as_ptr(), dst.as_mut_ptr(), 8, 30, 2), ERR_OVERFLOW);
+        assert_eq!(wf_elementary(src.as_ptr(), dst.as_mut_ptr(), 0, 30, 0), ERR_EMPTY);
+        assert_eq!(wf_population(core::ptr::null(), 8, &mut 0u64), ERR_SMALL);
+        assert_eq!(wf_moore(src.as_ptr(), dst.as_mut_ptr(), usize::MAX, 2, 0, 0, 0), ERR_OVERFLOW);
     }
 }
 
