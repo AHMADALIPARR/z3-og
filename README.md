@@ -35,6 +35,7 @@ record is in [SOURCES.md](SOURCES.md).
 | `kernel-ocaml/` | The trusted kernel as an opam package: hash-consed terms with physical equality, occurs-checked substitution, a ground congruence-closure checker with sound disequality, and a hash-chained assertion log with tamper detection. |
 | `wolfram-stack/wolfram/` | **Wolfram Language.** The owner's native `.wl` flat-array stack: 87 modules (Core/Array/Bits/Rules/Topology/Math/Bridge) — flat arrays, strides, indexing, bit packing, cellular automata, matrix ops, stencils, integer math, reductions — with assertion, property, and cross-language tests. |
 | `wolfram-stack/wolfram-flat/` | **Rust.** The `no_std`, allocation-free binary-bit kernel (1D rules, 2D Moore, popcount) and its std process adapter speaking the hex-word protocol (`E`/`M`/`P`) that the Wolfram bridge modules call. Rust is Rust: a separate engine, tested separately. |
+| `dee-mirror/` + `crypto/og_mixcolumns.c` | Dee Mirror Maze: MixColumns as a braided loom in two fields — GF(2^8) AES weave + mirror inverse in verified C11, working team page (`dee-mirror/team.html`), Goldilocks F_p backend (det M = −35 ≢ 0 mod p, invertible). |
 | `tools/rulec.c` | Symbolic rule compiler: turns a flat-array transition rule, unrolled over N steps, into Boolean SMT-LIB constraints the solver decides. |
 | `fstar/` | The verified layer: F* modules under a zero-sorry rule (no `admit`, no vacuous lemmas), with KreMLin extraction to C99. |
 | `docs/` | The v2 implementation contract (`ARCHITECTURE-CDCLT.md`) and the owner's reference sketches, filed verbatim. |
