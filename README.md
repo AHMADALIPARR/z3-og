@@ -33,7 +33,8 @@ record is in [SOURCES.md](SOURCES.md).
 | `src/` | SMT solver (C11, ~2,500 lines): SMT-LIB 2 parser → hash-consed AST → Tseitin encoding → DPLL SAT core → theory check per propositional model. Theories: congruence closure (QF_UF, incl. predicate congruence) + exact integer arithmetic (QF_LIA: Fourier–Motzkin feasibility, disequality backjumping, value-consistency learning). |
 | `crypto/` | Hand-rolled cryptography (C11): SHA-256 (FIPS 180-4), HMAC-SHA256 (RFC 2104/4231), Merkle roots with domain separation and big-endian length serialisation. |
 | `kernel-ocaml/` | The trusted kernel as an opam package: hash-consed terms with physical equality, occurs-checked substitution, a ground congruence-closure checker with sound disequality, and a hash-chained assertion log with tamper detection. |
-| `wolfram-stack/` | The owner's Wolfram flat-array stack: 87 native Wolfram Language modules (flat arrays, strides, indexing, bit packing, cellular automata, matrix ops, stencils, integer math, reductions) with assertion/property/cross-language tests, plus its Rust kernel and hex-protocol adapter (`wolfram-stack/wolfram-flat/`). Wolfram-primary; see its own README for honest execution limits. |
+| `wolfram-stack/wolfram/` | **Wolfram Language.** The owner's native `.wl` flat-array stack: 87 modules (Core/Array/Bits/Rules/Topology/Math/Bridge) — flat arrays, strides, indexing, bit packing, cellular automata, matrix ops, stencils, integer math, reductions — with assertion, property, and cross-language tests. |
+| `wolfram-stack/wolfram-flat/` | **Rust.** The `no_std`, allocation-free binary-bit kernel (1D rules, 2D Moore, popcount) and its std process adapter speaking the hex-word protocol (`E`/`M`/`P`) that the Wolfram bridge modules call. Rust is Rust: a separate engine, tested separately. |
 | `tools/rulec.c` | Symbolic rule compiler: turns a flat-array transition rule, unrolled over N steps, into Boolean SMT-LIB constraints the solver decides. |
 | `fstar/` | The verified layer: F* modules under a zero-sorry rule (no `admit`, no vacuous lemmas), with KreMLin extraction to C99. |
 | `docs/` | The v2 implementation contract (`ARCHITECTURE-CDCLT.md`) and the owner's reference sketches, filed verbatim. |
@@ -88,11 +89,39 @@ full data, harnesses, and an honest reading in
 
 ## Flat-array layer
 
-`tools/rulec.c` compiles flat-array transition predicates — the
-elementary cellular automaton rules, the same rule tables the
-Wolfram stack (`wolfram-stack/`) evaluates natively — into Boolean constraints, so
-the solver can *prove* properties of the automaton (reachability,
-cell values at generation t, invariant violations) instead of only
+Three separate pieces, kept separate — Wolfram is Wolfram, Rust is
+Rust, and the solver is the solver.
+
+### Wolfram Language — `wolfram-stack/wolfram/`
+
+The owner's native Wolfram Language implementation: 87 `.wl`
+modules over flat lists and bit-packed `u64` words — strides and
+ravel/unravel indexing, gather/scatter/scan, packed bit operations,
+elementary and totalistic cellular automata, Conway Life, stencil
+and matrix operations, integer mathematics and reductions. It ships
+with explicit assertion tests, property tests, and a
+cross-language test that compares its results against the Rust
+adapter's. Run it with a Wolfram engine:
+`wolframscript -file wolfram/RunTests.wl` (optionally with the
+adapter path for the bridge tests).
+
+### Rust — `wolfram-stack/wolfram-flat/`
+
+A `no_std`, allocation-free Rust kernel over caller-owned `u64`
+buffers (elementary rules, 2D Moore neighbourhoods, popcount), plus
+a std process adapter that exposes it over a line-oriented hex
+protocol (`E` = elementary step, `M` = Moore step, `P` = popcount).
+The Wolfram bridge modules call this adapter; neither side pretends
+to be the other. `cargo test`: 6 kernel tests + 5 adapter parser
+tests. Bounded Kani harnesses are included in the source; they have
+not been executed (see the stack's own README).
+
+### Symbolic — `tools/rulec.c`
+
+The rule compiler is the bridge to the solver: it compiles the same
+elementary transition predicates into Boolean constraints, so the
+solver can *prove* properties of the automaton (reachability, cell
+values at generation t, invariant violations) instead of only
 simulating it. The encoding is verified exhaustively at width 5
 against an independent bit-serial reference (`tools/refstep.c`):
 for every initial state, every cell's value is both proved and its
