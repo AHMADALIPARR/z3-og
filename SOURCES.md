@@ -23,3 +23,14 @@ Everything under `src/`, `crypto/`, and `kernel-ocaml/lib/` is original code
 written for this stack in the original Z3's architectural style. Forks
 contributed architecture, design rules, packaging shape, and test data —
 each item recorded above — not copied implementations.
+
+## License of this stack
+
+The hand-rolled code in this repo is under the license in `LICENSE`
+(Sovereign Leviathan / SNAPKITTY OPAQUE SOURCE LICENSE v1.0,
+verbatim). The one body of copied material — the `tests/corpus/`
+subset — remains under its original MIT license (z3test / Microsoft),
+as attributed in the table above. Everything else recorded above is
+architectural inspiration, design reference, or packaging shape, not
+copied code; this file was re-audited against the trees on 2026-10-29
+and the inspiration-vs-copied distinction holds as written.

@@ -83,12 +83,47 @@ it were the whole problem.
   fork contributed the opam packaging layout, and a Sqlite3-backed
   store is the next step. The kernel checker is ground EUF only — it
   checks the same fragment the C solver decides, nothing more.
-- No LICENSE file ships in this repo yet; upstream attributions for the
-  test corpus and design sources are in `SOURCES.md`. Licensing of the
-  hand-rolled code is the owner's call.
+- License: the hand-rolled code ships under `LICENSE` (Sovereign
+  Leviathan / SNAPKITTY OPAQUE SOURCE LICENSE v1.0, verbatim). The
+  copied test corpus remains under its original MIT license
+  (see `SOURCES.md`).
 
 ## Sources on disk
 
 Forks were cloned to `~/workspace/forks-incoming/` (all eight, HEADs
 verified against the remotes, opam-source-archives 609M complete).
 This repo is local only; nothing has been pushed.
+
+## Proof evidence — current state (2026-10-29)
+
+- The C solver emits **no** independently checkable proof evidence.
+  Its verdicts are results, not certificates.
+- The OCaml kernel verifies only assertions supplied directly to it.
+  It is not wired to the solver's output; no solver claim is
+  kernel-checked today.
+- Per the v2 architectural invariant, no `unsat` result from this
+  baseline may be described as independently certified. Closing this
+  gap is the v2 verification contract
+  (`docs/ARCHITECTURE-CDCLT.md`, section 5).
+
+## v2 direction — contract locked before code changes
+
+Deterministic CDCL(T), bare-metal memory model, rollback EUF with
+explanations, exact QF_LIA through the same theory interface,
+proof-producing conflicts checked by the OCaml kernel. The full
+implementation contract is `docs/ARCHITECTURE-CDCLT.md`; the owner's
+supplied Rust memory-management sketches (flat SAT arena, two-watched
+propagation, 1UIP analysis, E-graph) are filed verbatim in
+`docs/reference-sketches/`. Gate for replacing the DPLL core: this
+baseline's tests stay green (13 solver regressions, 81-file
+differential, 14 crypto vectors, 35 kernel checks), plus adversarial
+SAT instances, randomized CNF differential tests, and proof replay.
+
+## Publication prep (2026-10-29)
+
+Remote confirmed: `AHMADALIPARR/z3-og` has a single branch,
+`master` at 7f6ef0b (the 2015 fork). Local branch `legacy-2015`
+created at 7f6ef0b to preserve it under that name; the clean stack
+stays on `main`. Push order, when authorised: `legacy-2015` first,
+then `main`, then the default branch is switched to `main` via the
+API. Nothing has been pushed yet.
