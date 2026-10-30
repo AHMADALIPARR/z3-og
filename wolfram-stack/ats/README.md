@@ -65,7 +65,13 @@ cd ats
 patsopt -tc -d contracts.dats          # combined unit (no staload cycle)
 patsopt -tc -s *.sats                  # individual files also pass
 patsopt -tc -d *.dats
+gcc -std=c11 -Wall -Wextra -o ats_main main.c && ./ats_main
 ```
+
+`main.c` is a standalone C entry point (compiles with plain gcc).
+It does not yet call into ATS-generated code — the contracts are
+mostly `extern` declarations — but it is the link target for a
+future `patscc -o ats_main main.c contracts.dats` once bodies exist.
 
 `contracts.dats` is the whole layer as one compilation unit (sections
 preserve the original file boundaries). It typechecks cleanly under
