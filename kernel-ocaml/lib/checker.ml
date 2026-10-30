@@ -1,3 +1,8 @@
+(* z3-og -- hand-rolled SMT stack. Copyright (c) 2026 Ahmad Ali Parr.
+   Licensed under the Sovereign Leviathan / SNAPKITTY OPAQUE SOURCE
+   LICENSE v1.0 -- see LICENSE at the repository root. Commercial
+   exploitation requires separate written authorisation; publication,
+   access, download, visibility, or possession is not authorisation. *)
 (* Congruence closure over ground terms.
  *
  * Method (standard, cf. Nieuwenhuis & Oliveras, "Fast Congruence

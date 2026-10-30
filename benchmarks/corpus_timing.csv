@@ -1,0 +1,82 @@
+file,z3og_ms,z3_ms,z3og_verdict,z3_verdict
+old-regressions__smt2__idl.smt2,18,309,unknown,sat
+old-regressions__smt2__lia.smt2,35,38,sat,sat
+old-regressions__smt2__opt2.smt2,10043,124,0000,0000
+old-regressions__smt2__pb-bug.smt2,13,76,sat,sat
+old-regressions__smt2__t140.smt2,12,70,sat,sat
+old-regressions__smt2__t141.smt2,14,70,sat,sat
+old-regressions__smt2__t147.smt2,15,85,sat,sat
+old-regressions__smt2__t157.smt2,15,79,(error "unsupported sort"),sat
+old-regressions__smt2__t159.smt2,10,90,unknown,sat
+old-regressions__smt2__t203.smt2,20,99,sat,sat
+old-regressions__smt2__t284.smt2,20,101,unknown,sat
+old-regressions__smt2__t32.smt2,10,90,(error "unsupported command: get-option"),false
+old-regressions__smt2__t33.smt2,16,69,sat,sat
+old-regressions__smt2__t4.smt2,7,85,(error "unsupported sort"),sat
+old-regressions__smt2__t74.smt2,11,77,sat,sat
+old-regressions__smt2__t83.smt2,8,46,sat,sat
+old-regressions__smt2__z3.3.smt2,5,29,sat,sat
+old-regressions__smt2__z3.32.smt2,4,48,sat,sat
+old-regressions__smt2__z3.33.smt2,4,38,sat,sat
+regressions__nl__mul_0.smt2,7,71,unsat,unsat
+regressions__smt2__0xff.smt2,5,28,sat,sat
+regressions__smt2__2420.smt2,4,34,sat,sat
+regressions__smt2__2883.smt2,5,26,unknown,sat
+regressions__smt2__2908.smt2,22,24,sat,sat
+regressions__smt2__2938.smt2,4,23,sat,sat
+regressions__smt2__2955.smt2,6,48,sat,sat
+regressions__smt2__2960.smt2,14,24,sat,sat
+regressions__smt2__2962.smt2,10005,36,,sat
+regressions__smt2__3081.smt2,10004,29,,sat
+regressions__smt2__3163.smt2,3,24,sat,sat
+regressions__smt2__3220.smt2,3,22,(error "unknown function"),unsat
+regressions__smt2__3225.smt2,3,23,(error "unknown function"),sat
+regressions__smt2__3286.smt2,3,23,sat,sat
+regressions__smt2__3378.smt2,3,24,(error "unknown function"),sat
+regressions__smt2__3538.smt2,3,24,sat,sat
+regressions__smt2__3576.smt2,3,38,sat,sat
+regressions__smt2__3625.smt2,3,27,(error "unknown function"),sat
+regressions__smt2__3665.smt2,3,24,(error "unsupported sort"),sat
+regressions__smt2__3675.smt2,3,25,sat,sat
+regressions__smt2__3700.smt2,3,26,(error "unknown function"),sat
+regressions__smt2__3742.smt2,3,20,unsat,unsat
+regressions__smt2__3799.smt2,3,15,sat,sat
+regressions__smt2__3886.smt2,3,26,(error "unknown function"),sat
+regressions__smt2__3910.smt2,3,16,unknown,sat
+regressions__smt2__dejan_bug.smt2,3,25,(error "unknown function"),sat
+regressions__smt2__issue-3225.smt2,3,32,(error "unknown function"),sat
+regressions__smt2__issue-963.smt2,3,23,(error "unknown function"),unsat
+regressions__smt2__issue2301.smt2,3,38,(error "unknown function"),sat
+regressions__smt2__nl10.smt2,3,43,unknown,unsat
+regressions__smt2__nl11.smt2,3,46,unknown,unsat
+regressions__smt2__nl12.smt2,3,48,unknown,unsat
+regressions__smt2__nl13.smt2,3,50,unknown,unsat
+regressions__smt2__nl14.smt2,3,44,sat,sat
+regressions__smt2__nl15.smt2,3,47,sat,sat
+regressions__smt2__nl16.smt2,5,70,sat,sat
+regressions__smt2__nl17.smt2,4,27,unknown,unsat
+regressions__smt2__nl18.smt2,5,56,unknown,sat
+regressions__smt2__nl19.smt2,12,71,unknown,unsat
+regressions__smt2__nl36.smt2,3,50,unknown,unsat
+regressions__smt2__nl38.smt2,3,126,unknown,unsat
+regressions__smt2__nl39.smt2,7,124,unknown,unsat
+regressions__smt2__nl40.smt2,3,34,unsat,unsat
+regressions__smt2__nl45.smt2,3,51,unknown,sat
+regressions__smt2__nl46.smt2,4,48,unknown,unsat
+regressions__smt2__nl47.smt2,3,45,unknown,sat
+regressions__smt2__nl48.smt2,3,82,unknown,unsat
+regressions__smt2__nl49.smt2,3,90,unknown,unsat
+regressions__smt2__nl53.smt2,3,50,sat,sat
+regressions__smt2__nl55.smt2,100,27,ABSolver benchmark,ABSolver benchmark
+regressions__smt2__nl7.smt2,3,41,sat,sat
+regressions__smt2__nl8.smt2,3,41,unknown,sat
+regressions__smt2__nl9.smt2,3,41,unsat,unsat
+regressions__smt2__root-pre.smt2,3,22,(error "unknown function"),unsat
+regressions__smt2__string12.smt2,3,39,(error "unknown function"),sat
+regressions__smt2__t169.smt2,9,51,(error "unknown function"),sat
+regressions__smt2__unsatcore.smt2,3,18,unsat,unsat
+regressions__smt2__z3.16.smt2,3,24,(error "unsupported sort"),sat
+regressions__smt2__z3.2.smt2,3,21,sat,sat
+regressions__smt2__z3.29.smt2,3,19,sat,sat
+regressions__smt2__z3.4.smt2,3,25,unsat,unsat
+regressions__smt2__z3.5.smt2,4,23,unsat,unsat

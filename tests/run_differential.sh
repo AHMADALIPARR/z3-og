@@ -1,4 +1,9 @@
 #!/bin/sh
+# z3-og -- hand-rolled SMT stack. Copyright (c) 2026 Ahmad Ali Parr.
+# Licensed under the Sovereign Leviathan / SNAPKITTY OPAQUE SOURCE
+# LICENSE v1.0 -- see LICENSE at the repository root. Commercial
+# exploitation requires separate written authorisation; publication,
+# access, download, visibility, or possession is not authorisation.
 # Differential test: z3-og vs the system z3 (oracle) over tests/corpus/.
 # MISMATCH = sat-vs-unsat disagreement (a soundness failure).
 # unknown    = z3-og declined (out of fragment, budget, or poisoned input).

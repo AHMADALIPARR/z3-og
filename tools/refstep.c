@@ -1,3 +1,11 @@
+/*
+ * z3-og -- hand-rolled SMT stack (clean-room remake in the original
+ * Z3 architecture). Copyright (c) 2026 Ahmad Ali Parr.
+ * Licensed under the Sovereign Leviathan / SNAPKITTY OPAQUE SOURCE
+ * LICENSE v1.0 -- see LICENSE at the repository root. Commercial
+ * exploitation requires separate written authorisation; publication,
+ * access, download, visibility, or possession is not authorisation.
+ */
 /* refstep.c -- independent bit-serial reference for elementary
  * cellular automata, used only by tests/run_rulec.sh to check the
  * rule compiler's output against direct simulation.

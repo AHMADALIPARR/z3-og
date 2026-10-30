@@ -1,3 +1,11 @@
+/*
+ * z3-og -- hand-rolled SMT stack (clean-room remake in the original
+ * Z3 architecture). Copyright (c) 2026 Ahmad Ali Parr.
+ * Licensed under the Sovereign Leviathan / SNAPKITTY OPAQUE SOURCE
+ * LICENSE v1.0 -- see LICENSE at the repository root. Commercial
+ * exploitation requires separate written authorisation; publication,
+ * access, download, visibility, or possession is not authorisation.
+ */
 /* og_sat.h - a DPLL SAT core in the original Z3 src/sat spirit.
  * Hand-rolled for z3-og: unit propagation + chronological backtracking.
  * Deliberately simple and complete; no clause learning (see STATUS.md). */

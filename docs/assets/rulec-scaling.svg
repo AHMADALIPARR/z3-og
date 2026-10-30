@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="330" viewBox="0 0 640 330" font-family="Helvetica, Arial, sans-serif">
+  <rect width="640" height="330" fill="#ffffff"/>
+  <text x="320" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">rulec &#8594; z3og solve time (Rule 30, single seed, check-sat)</text>
+  <line x1="70" y1="280" x2="610" y2="280" stroke="#9ca3af"/>
+  <line x1="70" y1="60" x2="70" y2="280" stroke="#9ca3af"/>
+  <g font-size="11" fill="#6b7280">
+    <text x="62" y="284" text-anchor="end">0</text>
+    <text x="62" y="224" text-anchor="end">75</text>
+    <text x="62" y="154" text-anchor="end">150</text>
+    <text x="62" y="84" text-anchor="end">225</text>
+    <text x="30" y="170" transform="rotate(-90 30 170)" text-anchor="middle">milliseconds</text>
+  </g>
+  <g stroke="#e5e7eb"><line x1="70" y1="220" x2="610" y2="220"/><line x1="70" y1="150" x2="610" y2="150"/><line x1="70" y1="80" x2="610" y2="80"/></g>
+  <g fill="#4f46e5">
+    <rect x="120" y="275" width="70" height="5"/>
+    <rect x="250" y="266" width="70" height="14"/>
+    <rect x="380" y="235" width="70" height="45"/>
+    <rect x="510" y="65" width="70" height="215"/>
+  </g>
+  <g font-size="12" fill="#111827" text-anchor="middle" font-weight="bold">
+    <text x="155" y="266">6 ms</text>
+    <text x="285" y="257">18 ms</text>
+    <text x="415" y="226">59 ms</text>
+    <text x="545" y="56">275 ms</text>
+  </g>
+  <g font-size="11.5" fill="#374151" text-anchor="middle">
+    <text x="155" y="300">144 vars</text><text x="155" y="316">w16 &#215; s8</text>
+    <text x="285" y="300">416 vars</text><text x="285" y="316">w32 &#215; s12</text>
+    <text x="415" y="300">1,088 vars</text><text x="415" y="316">w64 &#215; s16</text>
+    <text x="545" y="300">2,688 vars</text><text x="545" y="316">w128 &#215; s20</text>
+  </g>
+</svg>

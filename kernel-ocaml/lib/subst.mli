@@ -1,3 +1,8 @@
+(* z3-og -- hand-rolled SMT stack. Copyright (c) 2026 Ahmad Ali Parr.
+   Licensed under the Sovereign Leviathan / SNAPKITTY OPAQUE SOURCE
+   LICENSE v1.0 -- see LICENSE at the repository root. Commercial
+   exploitation requires separate written authorisation; publication,
+   access, download, visibility, or possession is not authorisation. *)
 (** Substitutions: finite maps from variables to terms.
 
     A substitution is built incrementally with {!bind}.  Binding is
