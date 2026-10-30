@@ -1,0 +1,1 @@
+WF`ElementaryEvolve[bits_List,rule_Integer,steps_Integer,boundary_:"Zero"] := Module[{state=bits,out,i},If[steps<0||!WF`ValidateBits[bits]||Length[bits]==0,Return[$Failed]];out={state};For[i=1,i<=steps,i++,state=WF`ElementaryStep[state,rule,boundary];If[state===$Failed,Return[$Failed]];AppendTo[out,state]];out]

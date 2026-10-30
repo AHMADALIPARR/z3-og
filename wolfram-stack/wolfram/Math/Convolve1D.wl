@@ -1,0 +1,1 @@
+WF`Convolve1D[a_List,kernel_List,boundary_:"Zero"] := Module[{n=Length[a],m=Length[kernel],out,i,j,idx,s,c},If[m==0||EvenQ[m]||!MemberQ[{"Zero","Wrap"},boundary],Return[$Failed]];c=Quotient[m,2];out=ConstantArray[0,n];For[i=1,i<=n,i++,s=0;For[j=1,j<=m,j++,idx=i+j-c-1;If[boundary==="Wrap"&&n>0,idx=Mod[idx-1,n]+1];If[1<=idx<=n,s+=a[[idx]]*kernel[[j]]]];out[[i]]=s];out]

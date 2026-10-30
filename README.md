@@ -33,6 +33,7 @@ record is in [SOURCES.md](SOURCES.md).
 | `src/` | SMT solver (C11, ~2,500 lines): SMT-LIB 2 parser → hash-consed AST → Tseitin encoding → DPLL SAT core → theory check per propositional model. Theories: congruence closure (QF_UF, incl. predicate congruence) + exact integer arithmetic (QF_LIA: Fourier–Motzkin feasibility, disequality backjumping, value-consistency learning). |
 | `crypto/` | Hand-rolled cryptography (C11): SHA-256 (FIPS 180-4), HMAC-SHA256 (RFC 2104/4231), Merkle roots with domain separation and big-endian length serialisation. |
 | `kernel-ocaml/` | The trusted kernel as an opam package: hash-consed terms with physical equality, occurs-checked substitution, a ground congruence-closure checker with sound disequality, and a hash-chained assertion log with tamper detection. |
+| `wolfram-stack/` | The owner's Wolfram flat-array stack: 87 native Wolfram Language modules (flat arrays, strides, indexing, bit packing, cellular automata, matrix ops, stencils, integer math, reductions) with assertion/property/cross-language tests, plus its Rust kernel and hex-protocol adapter (`wolfram-stack/wolfram-flat/`). Wolfram-primary; see its own README for honest execution limits. |
 | `tools/rulec.c` | Symbolic rule compiler: turns a flat-array transition rule, unrolled over N steps, into Boolean SMT-LIB constraints the solver decides. |
 | `fstar/` | The verified layer: F* modules under a zero-sorry rule (no `admit`, no vacuous lemmas), with KreMLin extraction to C99. |
 | `docs/` | The v2 implementation contract (`ARCHITECTURE-CDCLT.md`) and the owner's reference sketches, filed verbatim. |
@@ -88,7 +89,8 @@ full data, harnesses, and an honest reading in
 ## Flat-array layer
 
 `tools/rulec.c` compiles flat-array transition predicates — the
-elementary cellular automaton rules — into Boolean constraints, so
+elementary cellular automaton rules, the same rule tables the
+Wolfram stack (`wolfram-stack/`) evaluates natively — into Boolean constraints, so
 the solver can *prove* properties of the automaton (reachability,
 cell values at generation t, invariant violations) instead of only
 simulating it. The encoding is verified exhaustively at width 5

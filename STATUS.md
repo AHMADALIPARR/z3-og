@@ -163,3 +163,31 @@ and claims, benchmark figures) were removed from the main branch
 history going forward the same day. The rule compiler
 (`tools/rulec.c`) is unaffected: it is this project's own code,
 verified independently of that crate.
+
+## The real wolfram stack (2026-10-29)
+
+`wolfram-stack/` is the owner's actual Wolfram work, supplied as
+`wolfram-stack.zip` after the fabricated crate was disowned, and
+landed verbatim (94 files). The primary implementation is native
+Wolfram Language: 87 `.wl` function modules (Core: flat arrays,
+strides, ravel/unravel indexing; Array: gather/scatter/scan/stencil;
+Bits: pack/unpack/popcount/shift; Rules: elementary CA, totalistic,
+Life; Topology: boundary shifts; Math: flat matrix ops, integer
+functions, reductions; Bridge: hex-word protocol to the Rust
+adapter), loaded by `wolfram/Load.wl` (all 87 Gets verified against
+the tree), plus 9 test files — explicit assertions, property tests,
+and `TestEveryFunction.wl` with 47 assertion checks. The Rust
+`wolfram-flat` kernel sits inside it in its proper, subordinate
+place, with a std process adapter (`E`/`M`/`P` hex protocol).
+
+Executed in this workspace: `cargo test` — 6 kernel + 5 adapter
+parser tests, all pass; the release adapter driven over its wire
+protocol from the shell — a Rule 30 `E` step matches the independent
+C reference (`tools/refstep.c`) exactly, `P` popcount correct, the
+`M` Life step turns the vertical blinker horizontal as it should.
+**Not executed here:** the `.wl` suite itself
+(`wolframscript -file wolfram/RunTests.wl`, including the
+cross-language `TestBridge`) — no Wolfram engine exists on this VM;
+and the Kani harnesses (`cargo kani` not installed), which the
+stack's own README also discloses as unexecuted. No stub markers
+exist in the `.wl` sources.

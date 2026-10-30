@@ -1,0 +1,1 @@
+WF`MatMulFlat[a_List,b_List,m_Integer,k_Integer,n_Integer] := Module[{out,i,j,t,s},If[Min[m,k,n]<0||Length[a]!=m*k||Length[b]!=k*n,Return[$Failed]];out=ConstantArray[0,m*n];For[i=1,i<=m,i++,For[j=1,j<=n,j++,s=0;For[t=1,t<=k,t++,s+=a[[(i-1)*k+t]]*b[[(t-1)*n+j]]];out[[(i-1)*n+j]]=s]];out]

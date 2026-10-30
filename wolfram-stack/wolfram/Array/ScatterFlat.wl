@@ -1,0 +1,1 @@
+WF`ScatterFlat[a_List,indices_List,values_List] := Module[{out=a,i,j},If[Length[indices]!=Length[values],Return[$Failed]];For[i=1,i<=Length[indices],i++,j=indices[[i]];If[!IntegerQ[j]||j<1||j>Length[a],Return[$Failed]];out[[j]]=values[[i]]];out]

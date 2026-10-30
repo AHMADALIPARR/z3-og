@@ -1,0 +1,1 @@
+WF`RuleComposition[bits_List,rules_List,boundary_:"Zero"] := Module[{state=bits,i},For[i=1,i<=Length[rules],i++,state=WF`ElementaryStep[state,rules[[i]],boundary];If[state===$Failed,Return[$Failed]]];state]

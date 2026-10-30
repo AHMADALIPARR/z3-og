@@ -1,0 +1,1 @@
+WF`RavelIndex[coords_List,shape_List] := Module[{s=WF`Strides[shape]},If[s===$Failed || Length[coords]!=Length[shape] || !And@@MapThread[IntegerQ[#1]&&1<=#1<=#2&,{coords,shape}],Return[$Failed]];1+Total[(coords-1)*s]]

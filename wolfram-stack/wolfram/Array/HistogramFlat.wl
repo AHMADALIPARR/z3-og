@@ -1,0 +1,1 @@
+WF`HistogramFlat[a_List,lo_Integer,hi_Integer] := Module[{out,i,v},If[hi<lo,Return[$Failed]];out=ConstantArray[0,hi-lo+1];For[i=1,i<=Length[a],i++,v=a[[i]];If[IntegerQ[v]&&lo<=v<=hi,out[[v-lo+1]]++]];out]

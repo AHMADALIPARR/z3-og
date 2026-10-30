@@ -1,0 +1,1 @@
+WF`ShiftPacked[words_List,n_Integer,offset_Integer,mode_:"Zero"] := Module[{src=WF`UnpackBits[words,n],out,i,j},If[src===$Failed||!MemberQ[{"Zero","Wrap"},mode],Return[$Failed]];out=ConstantArray[0,n];For[i=1,i<=n,i++,j=i-offset;If[mode==="Wrap"&&n>0,j=Mod[j-1,n]+1];If[1<=j<=n,out[[i]]=src[[j]]]];WF`PackBits[out]]

@@ -1,0 +1,1 @@
+WF`Neighbors1D[i_Integer,n_Integer,r_Integer,boundary_:"Zero"] := Module[{out={},j,k},If[n<=0||i<1||i>n||r<0,Return[$Failed]];For[j=-r,j<=r,j++,k=i+j;If[boundary==="Wrap",k=Mod[k-1,n]+1];If[1<=k<=n,AppendTo[out,k]]];out]

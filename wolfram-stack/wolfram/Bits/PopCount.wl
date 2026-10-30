@@ -1,0 +1,1 @@
+WF`PopCount[words_List,cells_Integer] := Module[{n=WF`WordsFor[cells],rem,s=0,i,mask},If[cells<=0||n>Length[words],Return[$Failed]];For[i=1,i<n,i++,s+=DigitCount[BitAnd[words[[i]],2^64-1],2,1]];rem=Mod[cells,64];mask=If[rem==0,2^64-1,2^rem-1];s+DigitCount[BitAnd[words[[n]],mask],2,1]]

@@ -1,0 +1,1 @@
+WF`TestMath[] := And@@{WF`AssertEqual[WF`GCDFlat[{48,18,30}],6,"gcd"],WF`AssertEqual[WF`MeanFlat[{1,2,3,4}],5/2,"mean"],WF`AssertEqual[WF`VarianceFlat[{1,2,3}],2/3,"variance"],WF`AssertEqual[WF`PowerInteger[3,5],243,"pow"],WF`AssertEqual[WF`Convolve1D[{1,2,3},{1,1,1}],{3,6,5},"convolution"],WF`AssertEqual[WF`MatVecFlat[{1,2,3,4},{5,6},2,2],{17,39},"matvec"]}

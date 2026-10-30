@@ -1,0 +1,1 @@
+WF`FlatTranspose2D[a_Association] := Module[{h,w,out,x,y},If[!WF`FlatValid[a]||Length[a["Shape"]]!=2,Return[$Failed]];{h,w}=a["Shape"];out=ConstantArray[0,h*w];For[y=1,y<=h,y++,For[x=1,x<=w,x++,out[[(x-1)*h+y]]=a["Data"][[ (y-1)*w+x ]]]];<|"Shape"->{w,h},"Data"->out|>]

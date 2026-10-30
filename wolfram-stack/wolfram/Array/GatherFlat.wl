@@ -1,0 +1,1 @@
+WF`GatherFlat[a_List,indices_List] := Module[{out=Table[Null,{Length[indices]}],i,j},For[i=1,i<=Length[indices],i++,j=indices[[i]];If[!IntegerQ[j]||j<1||j>Length[a],Return[$Failed]];out[[i]]=a[[j]]];out]

@@ -1,0 +1,1 @@
+WF`SliceFlat[a_List,start_Integer,count_Integer,stride_Integer:1] := Module[{out={},j,i},If[count<0||stride==0,Return[$Failed]];For[i=0,i<count,i++,j=start+i*stride;If[j<1||j>Length[a],Return[$Failed]];AppendTo[out,a[[j]]]];out]

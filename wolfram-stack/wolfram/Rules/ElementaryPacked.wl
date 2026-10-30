@@ -1,0 +1,1 @@
+WF`ElementaryPacked[words_List,n_Integer,rule_Integer,boundary_:"Zero"] := Module[{bits=WF`UnpackBits[words,n],next},If[bits===$Failed,Return[$Failed]];next=WF`ElementaryStep[bits,rule,boundary];If[next===$Failed,$Failed,WF`PackBits[next]]]

@@ -1,0 +1,1 @@
+WF`ParseHexWords[text_String] := Module[{parts=If[text==="",{},StringSplit[StringTrim[text],","]]},If[!VectorQ[parts,StringMatchQ[#,RegularExpression["[0-9a-fA-F]{1,16}"]]&],Return[$Failed]];FromDigits[#,16]&/@parts]
