@@ -62,11 +62,17 @@ On a machine with ATS2:
 
 ```
 cd ats
-patsopt -tc -s *.sats
+patsopt -tc -d contracts.dats          # combined unit (no staload cycle)
+patsopt -tc -s *.sats                  # individual files also pass
 patsopt -tc -d *.dats
 ```
 
-The contracts are exact and kernel-grounded. Individual typechecking
-is now machine-checked; the combined module graph and the bridge
-implementation remain open. The Kani harnesses remain the executable
-shadow of these propositions.
+`contracts.dats` is the whole layer as one compilation unit (sections
+preserve the original file boundaries). It typechecks cleanly under
+ATS2 0.4.2. The original split files remain for reference; a combined
+check of those still reports the staload cycle. The `elementary_step`
+implementation in the bridge section is commented (solver crash on
+the dependent `int ERR_OK`); the declaration remains.
+
+The contracts are exact and kernel-grounded. The Kani harnesses remain
+the executable shadow of these propositions.
