@@ -130,11 +130,6 @@ API. Nothing has been pushed yet.
 
 ## Companion crate and rule compiler (2026-10-29)
 
-- `wolfram-flat/` — the owner's allocation-free `#![no_std]` Rust
-  kernel for elementary + Moore cellular automata on caller-owned
-  u64 buffers, added verbatim. Its README notes the tests were not
-  run in its packaging environment; here they were:
-  `cargo test` (cargo 1.99.0) — **6/6 pass**.
 - `tools/rulec.c` — symbolic rule compiler: compiles an elementary
   rule unrolled over N steps into Boolean SMT-LIB constraints for
   this solver (the layer that turns flat-array transition predicates
@@ -157,3 +152,14 @@ API. Nothing has been pushed yet.
   with proved lemmas (`union_merges`, `union_nodes`); the sketch's
   vacuous lemma was dropped, not faked, and the file header says
   what a real version still needs. Full record: `fstar/README.md`.
+
+## Removal (2026-10-29)
+
+A Rust cellular-automata crate that had been added as
+`wolfram-flat/` was identified by the owner as fabricated agent
+work — a generic CA engine dressed up as a "Wolfram stack" — not
+the owner's work. It and everything derived from it (README image
+and claims, benchmark figures) were removed from the main branch
+history going forward the same day. The rule compiler
+(`tools/rulec.c`) is unaffected: it is this project's own code,
+verified independently of that crate.

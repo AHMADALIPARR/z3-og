@@ -41,13 +41,6 @@ test battery plus adversarial and randomized differential testing.
 Plain portable C with no hardware SHA instructions — correctness
 against published vectors (14/14) is the design point, not speed.
 
-## wolfram-flat (Rust, release build)
-
-Rule 30, zero boundary, 1,048,576 cells × 2,000 steps:
-**156.5 million cell-steps/second** (final population 2,021 from a
-single seed — the sparse front is expected: at step 2,000 the
-pattern is ~2,000 cells wide).
-
 ## rulec → solver scaling (Rule 30, single seed, `check-sat`)
 
 | Width × steps | Boolean variables | Verdict | Time |

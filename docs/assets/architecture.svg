@@ -47,7 +47,7 @@
   <text x="36" y="341" font-size="12" font-weight="bold" fill="#9d174d">FLAT-ARRAY LAYER (cellular automata &#8594; constraints)</text>
   <g font-size="12" fill="#111827" text-anchor="middle">
     <rect x="36" y="355" width="250" height="52" rx="6" fill="#ffffff" stroke="#db2777"/>
-    <text x="161" y="377">wolfram-flat (Rust, no_std)</text><text x="161" y="394">caller-owned u64 buffers, zero heap</text>
+    <text x="161" y="377">elementary rules (flat arrays)</text><text x="161" y="394">bit-packed state, deterministic</text>
     <rect x="330" y="355" width="250" height="52" rx="6" fill="#ffffff" stroke="#db2777"/>
     <text x="455" y="377">rulec (tools/, C11)</text><text x="455" y="394">symbolic rule compiler &#8594; SMT-LIB</text>
     <rect x="624" y="355" width="260" height="52" rx="6" fill="#ffffff" stroke="#db2777"/>
