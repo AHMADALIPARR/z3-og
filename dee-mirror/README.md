@@ -54,7 +54,7 @@ does, is a display reflection, not an inverse.
 
 ## Corrections to the supplied material (offered, not silently made)
 
-The supplied files above are filed **verbatim**; the fixes live here
+The supplied files above are filed **verbatim** apart from the Sovereign license header prepended 2026-10-30 at the owner's order (bodies untouched); the fixes live here
 and in the working code, not inside the owner's files.
 
 1. **Determinant.** The Lean file states `det = 20`. The exact

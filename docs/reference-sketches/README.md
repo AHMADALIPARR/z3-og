@@ -4,7 +4,8 @@ These Rust fragments were supplied by the owner on 2026-10-29 as the
 memory-management foundation for the v2 CDCL(T) engine (see
 `docs/ARCHITECTURE-CDCLT.md`). They are filed **verbatim, as given** —
 design sketches that fix the flat-arena memory model, not build
-inputs. The v2 kernel is C99 (Option A); these sketches are the
+inputs. (The Sovereign license header was prepended to each file on
+2026-10-30 at the owner's order; bodies are exactly as given.) The v2 kernel is C99 (Option A); these sketches are the
 reference the C99 structures are checked against.
 
 - `sat_arena.rs` — flat SAT arena: clause literal store, clause
