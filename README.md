@@ -11,6 +11,19 @@ record is in [SOURCES.md](SOURCES.md).
 
 ![ANSI maze traversal](docs/assets/maze-ansi.gif)
 
+### What the maze is
+
+A terminal-style visualizer of the ATS contract layer's geometry.
+The walls are box-drawing characters (`┌─┐│└┘`) in cyan; the trail
+is a color gradient (green visited, orange recent, yellow current)
+matching the ANSI sequences the layer would emit if rendered live.
+The path is a spiral through nested corridors — the same shape
+discipline the contracts enforce on buffers: you only step where
+the type says the cell exists, and the trail never crosses a wall.
+It is not a solver output; it is the memory layout the contracts
+describe, drawn so the bounds are visible.
+
+
 *Rule 30 from a single seed, 800 × 800 generations, rendered from an
 actual run of the `wolfram-flat` kernel in this repository — the
 flat-array cellular automaton whose transition rules the solver can
