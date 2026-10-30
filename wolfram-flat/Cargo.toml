@@ -1,0 +1,10 @@
+[package]
+name = "wolfram-flat"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Allocation-free, no_std, flat-array cellular automata and stencil kernel"
+
+[lib]
+name = "wolfram_flat"
+path = "src/lib.rs"

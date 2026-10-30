@@ -127,3 +127,23 @@ created at 7f6ef0b to preserve it under that name; the clean stack
 stays on `main`. Push order, when authorised: `legacy-2015` first,
 then `main`, then the default branch is switched to `main` via the
 API. Nothing has been pushed yet.
+
+## Companion crate and rule compiler (2026-10-29)
+
+- `wolfram-flat/` — the owner's allocation-free `#![no_std]` Rust
+  kernel for elementary + Moore cellular automata on caller-owned
+  u64 buffers, added verbatim. Its README notes the tests were not
+  run in its packaging environment; here they were:
+  `cargo test` (cargo 1.99.0) — **6/6 pass**.
+- `tools/rulec.c` — symbolic rule compiler: compiles an elementary
+  rule unrolled over N steps into Boolean SMT-LIB constraints for
+  this solver (the layer that turns flat-array transition predicates
+  into CDCL(T)-bound constraints). `tools/refstep.c` is an
+  independent bit-serial reference. `tests/run_rulec.sh` verifies
+  exhaustively at width 5, steps 3, all 32 initial states, rules
+  30/90/110 (zero boundary) and rule 30 (wrap): for every cell the
+  solver proves the simulated value and refutes its negation —
+  **5,120 solver checks, all pass**.
+- `fstar/` — the verified layer is being added under the owner's
+  zero-sorry rule (no admit/sorry/assume, no vacuous lemmas);
+  F* 2026.10.18 is installed at `~/workspace/.tools/fstar`.

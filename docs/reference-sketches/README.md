@@ -38,3 +38,46 @@ the sketches stay verbatim):
   requires explicit capacity checks.
 - `EGraph::union` does not yet rebuild parent hash keys (the sketch
   says so itself); congruence maintenance is contract §2 work.
+
+- `symbolic_arena.rs` — symbolic expression arena (Const/Var/Not/And/
+  Or/Xor over u32 expression IDs) for compiling flat-array transition
+  predicates into Boolean constraints.
+- `symbolic_compile.rs` — Tseitin compilation from the symbolic arena
+  into SatArena clauses (memoized, one variable per unique node).
+- `wolfram_stencil.rs` — XOR stencil builder for elementary rules.
+- `EGraph.Sovereign.fst` — F* specification of the verified E-graph
+  layer (operator set, e-nodes/e-classes, rewrite rules, merge
+  operation), the formal counterpart of `egraph.rs`.
+
+Corrections offered for the symbolic compiler sketches (noted here,
+not edited into the verbatim files):
+
+- In `symbolic_compile.rs` the arm labelled `And` emits the clause set
+  for **Or**: `(l1 -> out)`, `(l2 -> out)`, `(out -> l1 | l2)` is
+  exactly `out <-> (l1 | l2)`. Counterexample for AND: l1=true,
+  l2=false, out=true satisfies all three emitted clauses but violates
+  AND. The AND set is `(out -> l1)`, `(out -> l2)`,
+  `(l1 & l2 -> out)`. The `Or` arm is still `todo!()`. The XOR clause
+  set checks out as written.
+- `wolfram_stencil.rs` as written builds `curr ^ (left ^ right)`,
+  which is exactly **Rule 90** — one rule, not a general rule
+  compiler. A general elementary-rule compiler needs the full
+  8-neighbourhood minterm expansion (or the rule's algebraic normal
+  form). The working general compiler for the current baseline is
+  `tools/rulec.c`, verified exhaustively at small width.
+- `compile_to_cnf` calls `sat.alloc_var()`, which the SatArena sketch
+  does not define yet; the C99 port must add variable allocation to
+  the arena contract.
+- In `EGraph.Sovereign.fst`, `sound_rewrite_preserves_equivalence`
+  as supplied proves `ensures true` (vacuous until semantic
+  equivalence is formalised, as its own comment says), and
+  `verified_union` returns the state unmerged. Both are specification
+  placeholders, recorded as such.
+
+- `flat_array_grid.mojo`, `egraph.mojo` — Mojo ports of the flat grid
+  and the E-graph, supplied in the same stream. Filed verbatim; **not
+  executed** — no Mojo toolchain is installed in this workspace.
+  Note: `egraph.mojo`'s `find` uses path compression; the CDCL(T)
+  contract (ARCHITECTURE-CDCLT.md section 5) requires rollback-safe
+  union-find in the solver's EUF, so compression there must be
+  recorded on the rollback trail or dropped.
