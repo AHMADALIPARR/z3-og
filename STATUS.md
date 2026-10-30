@@ -99,10 +99,20 @@ pair token, stride/stencil files own the index arithmetic and the
 Zero/Wrap neighbourhood cases, bridge.dats fixes the wf_* C ABI and
 the Kani-harness correspondence. Every contract is grounded in the
 shipped kernel (wolfram-flat/src/lib.rs) line by line. STATUS:
-authored, NOT typechecked -- no ATS toolchain exists on this VM
-(no patscc/xatscc, no package candidate); check command for the
-owner's machines is in ats/README.md. Nothing here is claimed
-machine-checked; the Kani harnesses remain the bounded form.
+TYPECHECKED by the owner under ATS2 0.4.2 on 2026-10-30 (his
+commits: per-module fixes, the combined contracts.dats unit, a C
+main.c entry point). The wf_* C ABI those contracts declare is
+now implemented in the kernel itself (wf_words_for, wf_elementary,
+wf_population, wf_moore; error codes and boundary tags exactly as
+proofs.sats fixes them), with a staticlib shim crate
+(wolfram-flat-ffi/) for C linking, verified from a gcc driver
+(Rule 30 step, population, Life blinker through the ABI). The
+adapter passes the full TestBridge case matrix against an
+independent C reference (171 cases, 0 mismatches); under Mathics3
+the bridge suite itself cannot execute (RunProcess is unevaluated
+there), and the Properties / EveryFunction suites were still
+running under Mathics3 at the time of this note -- the five other
+.wl suites pass. The Kani harnesses remain the bounded form.
 
 ## Rule 30 photo restored -- 2026-10-29
 

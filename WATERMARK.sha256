@@ -2,14 +2,14 @@
 # Trademark of the owners: the watermark is the mark. Each entry is
 # sha256(file); the chain folds sha256(prev || filehash || path) over
 # every tracked file in path order, so any altered file breaks the head.
-# chain-head: ddbd521d888931ca76b3dd25feacaf5e9c9dec6f2d1567f3baf13232e9f03b4b
+# chain-head: cba96c4952278ec92156db5469682f2616dcae2da4140642b6f2fcc038b8ab5b
 
 70c32e43540cfc45d3bbd7f4bb526a292994b167c5a5ef2d7cc6e3e8c9192082  .gitignore
 6f26b3c4a6017597ef0a302b31125dbb9848b77129d598b503ad33818acbf8a6  LICENSE
 daf91068f94c920878680c94835f7c1bb6fc895c60cbcd5d8ff4cea32f3a3257  Makefile
-ed6224a50badd45207ca53b8f0f9ecd1cb42aa253f1e53db6a0647e31abc31ab  README.md
+3e88e3ac7e1562fdff1e1fb23333711a4cf95a9c3ab9620605badbf2e24c300e  README.md
 1dda29b17a39398628e9bd61656ead61362c21a0c1fa5572b59c484fcbfcd4ea  SOURCES.md
-10352d34c34247f5804c688f8cf1fae336a905c7411f81b239b70b150c764e43  STATUS.md
+39e734a81ffb2afdaf3076857ba6067b85db5c945d78e5e3aae2eb84c86ba38f  STATUS.md
 92c34c54491c811ed3609d54748200e12bda2fd0159d04cfbfdfa9c481d2916a  benchmarks/RESULTS.md
 3084261974695bcb8b17b72681deb7278cbb2d699e7072570ff2192dd69dfd34  benchmarks/bench_crypto.c
 be2ea4428d731aafc2882b89c59f94e7b296b5805520c9fc702788983ba3fbe0  benchmarks/corpus_timing.csv
@@ -299,4 +299,4 @@ c152b2ae3a2fb848b2325559f8b821e1ccbad658dc1407f60e19012adcf8a4d4  wolfram-stack/
 c8434c620ed7b58d2e2155753b9ec3ce5b23a75d2de7299526d4d4bbd16d4973  wolfram-stack/wolfram/Topology/ReflectIndex.wl
 012baf07b5b7062cce47f50c1a789fa85b5eecf357b88ca8bd15cf4672f06bbf  wolfram-stack/wolfram/Topology/ReflectShift.wl
 
-# chain-head: ddbd521d888931ca76b3dd25feacaf5e9c9dec6f2d1567f3baf13232e9f03b4b
+# chain-head: cba96c4952278ec92156db5469682f2616dcae2da4140642b6f2fcc038b8ab5b
